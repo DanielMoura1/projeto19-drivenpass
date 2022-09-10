@@ -19,6 +19,7 @@ export async function createUsuario(req: Request, res: Response) {
     const usuario: usuarioData = req.body;
 
     try{
+      await usuarioService.varificarLogin(usuario)
         const secretKey = 'skljaksdj9983498327453lsldkjf';
        
         const nossoToken = jwt.sign(
@@ -34,6 +35,7 @@ export async function createUsuario(req: Request, res: Response) {
           );
         console.log('?')
         console.log(nossoToken)
+        res.send(nossoToken);
     }catch(error){
         res.status(500).send(error)
     }
