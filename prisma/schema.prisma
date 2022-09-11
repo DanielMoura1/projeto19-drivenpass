@@ -8,7 +8,42 @@ datasource db {
 }
 
 model usuario {
-  id    Int    @id @default(autoincrement())
-  email String @unique
-  senha String
+  id       Int        @id @default(autoincrement())
+  email    String     @unique
+  senha    String
+  token    String?
+  notaNome notaNome[]
+  sites    sites[]
+}
+
+model credenciais {
+  id      Int    @id @default(autoincrement())
+  url     String
+  usuario String
+  senha   String
+  siteId  Int
+  sites   sites  @relation(fields: [siteId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model sites {
+  id          Int           @id @default(autoincrement())
+  titulo      String
+  usuarioId   Int
+  usuario     usuario       @relation(fields: [usuarioId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  credenciais credenciais[]
+}
+
+model notaNome {
+  id        Int     @id @default(autoincrement())
+  titulo    String
+  usuarioId Int
+  usuario   usuario @relation(fields: [usuarioId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  notas     notas[]
+}
+
+model notas {
+  id       Int      @id @default(autoincrement())
+  anotacao String
+  siteId   Int
+  notaNome notaNome @relation(fields: [siteId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

@@ -9,3 +9,13 @@ export async function getEmail(usuario: usuarioData) {
         email:usuario.email
     }});
 }
+export async function updateToken(id:number,token:string) {
+    await prisma.usuario.update({
+        where: {
+          id: id
+        },
+        data: {
+          token: token
+        }
+      })
+}

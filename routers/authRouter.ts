@@ -10,5 +10,5 @@ const authRouter = Router();
 
 authRouter.post('/criarUser',validateSchemaMiddleware(usuarioSchema),createUsuario);
 authRouter.post('/login',validateSchemaMiddleware(usuarioSchema),loginUsuario);
-export default authRouter;''
+export default authRouter;
 

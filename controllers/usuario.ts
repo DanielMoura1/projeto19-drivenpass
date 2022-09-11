@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import * as usuarioService from '../service/Testeservice.js';
+import * as usuarioService from '../service/usuarioService.js';
 import { usuarioData } from '../types/usuarioType.js';
-import jwt  from 'jsonwebtoken';
+
 
 export async function createUsuario(req: Request, res: Response) {
     const usuario: usuarioData = req.body;
@@ -20,21 +20,8 @@ export async function createUsuario(req: Request, res: Response) {
 
     try{
       await usuarioService.varificarLogin(usuario)
-        const secretKey = 'skljaksdj9983498327453lsldkjf';
-       
-        const nossoToken = jwt.sign(
-            {
-              email: usuario.email,
-              password: usuario.senha,
-            },
-            secretKey,
-            {
-              expiresIn: '1y',
-              subject: '1',
-            }
-          );
-        console.log('?')
-        console.log(nossoToken)
+      const nossoToken = await usuarioService.criarToken(usuario)
+      await usuarioService.updateUsuario(usuario,nossoToken)
         res.send(nossoToken);
     }catch(error){
         res.status(500).send(error)
