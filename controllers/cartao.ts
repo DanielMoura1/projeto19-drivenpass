@@ -14,7 +14,7 @@ export async function createCartao(req: Request, res: Response) {
         await credenciaisService.criarSite(credenciais,usuario.id)
         const Nomecartao =await credenciaisService.pegarSite(usuario.id,credenciais.titulo)
         await credenciaisService.criarCredenciais(credenciais,Nomecartao.id)
-        res.status(200).send('Pergunta criada com sucesso!!');
+        res.status(200).send('Cartão criado com sucesso!!');
     }catch(error){
         res.status(500).send(error)
     }
@@ -31,10 +31,8 @@ export async function createCartao(req: Request, res: Response) {
         console.log(token)
         const usuario =await credenciaisService.pegarUsuario(token)
         const cd =await credenciaisService.pegarCartaos(id,usuario.id)
-        //const usuario =await credenciaisService.pegarUsuario(token)*
-        //const cd =await credenciaisService.pegarCredenciais(id,usuario.id)
         console.log(cd)
-        res.status(200).send('Pergunta criada com sucesso!!');
+        res.send(cd);
     }catch(error){
         res.status(500).send(error)
     }
@@ -56,7 +54,7 @@ export async function createCartao(req: Request, res: Response) {
         console.log(cd[0].cartao[0].id)
         await credenciaisService.Delete(id,cd[0].cartao[0].id)
         console.log(cd)
-        res.status(200).send('Pergunta criada com sucesso!!');
+        res.status(200).send('Cartão deletadas com sucesso ');
     }catch(error){
         res.status(500).send(error)
     }

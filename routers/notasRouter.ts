@@ -4,10 +4,12 @@ import {
     getnotas,
     Delete
   } from '../controllers/notas.js';
-
+// notaSchema
+import {notaSchema} from '../schemas/scremaNotas.js';
+  import { validateSchemaMiddleware } from './../middlewares/validarSchema.js';
 const notaRouter = Router();
 
-notaRouter.post('/criarNota', createNota);
+notaRouter.post('/criarNota', validateSchemaMiddleware(notaSchema), createNota);
 notaRouter.get('/getnotas/:id', getnotas);
 notaRouter.delete('/deletenotas/:id', Delete);
 //credenciaisRouter.get('/getCredenciais/:id', getCredenciais);

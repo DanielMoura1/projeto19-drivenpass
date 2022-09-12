@@ -4,10 +4,12 @@ import {
     getCredenciais,
     Delete
   } from '../controllers/credenciais.js';
-
+//credenciaiSchema
+import { credenciaiSchema} from '../schemas/schemaCredenciaisRouter.js';
+  import { validateSchemaMiddleware } from './../middlewares/validarSchema.js';
 const credenciaisRouter = Router();
 
-credenciaisRouter.post('/criarCredenciaisRouter',createCredenciais);
+credenciaisRouter.post('/criarCredenciaisRouter', validateSchemaMiddleware(credenciaiSchema),createCredenciais);
 
 credenciaisRouter.get('/getCredenciais/:id', getCredenciais);
 credenciaisRouter.delete('/deleteCd/:id', Delete);

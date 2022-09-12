@@ -21,7 +21,7 @@ export async function createCredenciais(req: Request, res: Response) {
         await credenciaisService.criarSite(credenciais,usuario.id)
         const site =await credenciaisService.pegarSite(usuario.id,credenciais.titulo)
         await credenciaisService.criarCredenciais(credenciais,site.id)
-        res.status(200).send('Pergunta criada com sucesso!!');
+        res.status(200).send('Credenciais criadas com sucesso!!');
     }catch(error){
         res.status(500).send(error)
     }
@@ -39,7 +39,7 @@ export async function createCredenciais(req: Request, res: Response) {
         const usuario =await credenciaisService.pegarUsuario(token)
         const cd =await credenciaisService.pegarCredenciais(id,usuario.id)
         console.log(cd)
-        res.status(200).send('Pergunta criada com sucesso!!');
+        res.send(cd);
     }catch(error){
         res.status(500).send(error)
     }
@@ -61,7 +61,7 @@ export async function createCredenciais(req: Request, res: Response) {
         console.log(cd[0].credenciais[0].id)
         await credenciaisService.Delete(id,cd[0].credenciais[0].id)
         console.log(cd)
-        res.status(200).send('Pergunta criada com sucesso!!');
+        res.status(200).send('Credenciais deletadas com sucesso ');
     }catch(error){
         res.status(500).send(error)
     }

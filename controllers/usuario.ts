@@ -9,7 +9,7 @@ export async function createUsuario(req: Request, res: Response) {
     try{
         await usuarioService.varificarEmail(usuario)
         await usuarioService.criarUsuario(usuario);
-        res.status(200).send('Pergunta criada com sucesso!!');
+        res.status(200).send('Usuario criado com sucesso!!');
     }catch(error){
         res.status(500).send(error)
     }
