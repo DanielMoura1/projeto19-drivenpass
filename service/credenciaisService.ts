@@ -3,6 +3,8 @@ import { credenciaisData, sitesData } from '../types/credenciaisType';
 import { usuarioData } from '../types/usuarioType.js';
 import Cryptr from 'cryptr';
 import jwt  from 'jsonwebtoken';
+import { deserializeStream } from 'bson';
+import { number } from 'joi';
 
 interface cd {
   titulo:string,
@@ -34,9 +36,10 @@ export async function pegarUsuario(token:string) {
     return await userRepository.insert(sites)
 
   }
-  export async function pegarSite(id:number) {
-    const site =await userRepository.getsite(id)
-     return site[0]
+  export async function pegarSite(id:number,cd:string) {
+    const site =await userRepository.getsite(id,cd)
+    const n =site.length-1
+     return site[n]
     }
   export async function criarCredenciais(credenciais: cd,id: number) {
     const cryptr = new Cryptr('myTotallySecretKey');
@@ -57,4 +60,16 @@ export async function pegarUsuario(token:string) {
       throw { code: 'NotFound', message: 'id invalido' }
   }
      return usuario
+    }
+    export async function Delete(idsite:number,idcd:number) {
+      return await userRepository.deletar(idsite,idcd)
+      }
+      export async function varificarID(id: number,titul:string) {
+
+        const titulo= await userRepository.getId(id)
+        console.log(titulo)
+        if(titulo.length===0){
+            throw { code: 'NotFound', message: 'id invalido' }
+        }
+       
     }

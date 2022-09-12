@@ -1,15 +1,12 @@
 import { Request, Response } from 'express';
-import * as credenciaisService from '../service/credenciaisService.js';
-import { sitesData } from '../types/credenciaisType.js';
-interface cd {
-    titulo:string,
-    url:string,
-    usuario:string,
-    senha:string;
-  }
+import * as credenciaisService from '../service/wifiService.js';
 export async function createCredenciais(req: Request, res: Response) {
-   
-    const credenciais: cd = req.body;
+    interface wi {
+        titulo:string,
+        nomeRede:string,
+        senha:string;
+      }
+    const credenciais: wi = req.body;
     const { authorization } = req.headers;
     const token:string = authorization?.replace('Bearer ', '');
     
@@ -17,17 +14,22 @@ export async function createCredenciais(req: Request, res: Response) {
         console.log(credenciais)
         console.log(token)
         const usuario =await credenciaisService.pegarUsuario(token)
-        await credenciaisService.varificarTitulo(usuario.id,credenciais.titulo)
         await credenciaisService.criarSite(credenciais,usuario.id)
-        const site =await credenciaisService.pegarSite(usuario.id,credenciais.titulo)
-        await credenciaisService.criarCredenciais(credenciais,site.id)
+        const nomewifi =await credenciaisService.pegarSite(usuario.id)
+        console.log(nomewifi)
+        await credenciaisService.criarCredenciais(credenciais,nomewifi.id)
+        //const usuario =await credenciaisService.pegarUsuario(token)*
+        //await credenciaisService.varificarTitulo(usuario.id,credenciais.titulo)*
+        //await credenciaisService.criarSite(credenciais,usuario.id)*
+        //const site =await credenciaisService.pegarSite(usuario.id)*
+        //await credenciaisService.criarCredenciais(credenciais,site.id)*
         res.status(200).send('Pergunta criada com sucesso!!');
     }catch(error){
         res.status(500).send(error)
     }
     
   }
-  export async function getCredenciais(req: Request, res: Response) {
+  export async function getWifi(req: Request, res: Response) {
    
     const id = parseInt(req.params.id);
     const { authorization } = req.headers;
@@ -38,6 +40,7 @@ export async function createCredenciais(req: Request, res: Response) {
         console.log(token)
         const usuario =await credenciaisService.pegarUsuario(token)
         const cd =await credenciaisService.pegarCredenciais(id,usuario.id)
+        //const cd =await credenciaisService.pegarCredenciais(id,usuario.id)
         console.log(cd)
         res.status(200).send('Pergunta criada com sucesso!!');
     }catch(error){
@@ -55,11 +58,14 @@ export async function createCredenciais(req: Request, res: Response) {
         console.log(id)
         console.log(token)
         const usuario =await credenciaisService.pegarUsuario(token)
+        console.log('1')
         const cd =await credenciaisService.pegarCredenciais(id,usuario.id)
-        await credenciaisService.varificarID(usuario.id,cd[0].titulo)
+        console.log('2')
+        await credenciaisService.varificarID(id,cd[0].titulo)
         console.log('oi')
-        console.log(cd[0].credenciais[0].id)
-        await credenciaisService.Delete(id,cd[0].credenciais[0].id)
+        console.log(cd)
+        console.log('wifi')
+        await credenciaisService.Delete(id,cd[0].wifi[0].id)
         console.log(cd)
         res.status(200).send('Pergunta criada com sucesso!!');
     }catch(error){

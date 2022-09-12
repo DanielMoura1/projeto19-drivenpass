@@ -23,9 +23,10 @@ export async function getUsuario(token:string) {
         token:token
     }});
 }
-export async function getsite(id:number) {
+export async function getsite(id:number,cd:string) {
     return await prisma.sites.findMany({ where:{
-        usuarioId:id
+        usuarioId:id,
+        titulo:cd
     }});
 }
 export async function getTitulo(id: number,titulo:string) {
@@ -44,4 +45,23 @@ export async function getCredenciais(id:number,idUsuario:number) {
      }
 });
    
+}
+export async function deletar(id:number,idUsuario:number) {
+    
+    await prisma.credenciais.delete({
+        where: {
+        id: idUsuario,
+        },
+      })
+     await prisma.sites.delete({
+        where: {
+          id: id,
+        },
+      })
+    
+}
+export async function getId(id: number) {
+    return await prisma.credenciais.findMany({ where:{
+        id:id,
+    }});
 }

@@ -9,6 +9,7 @@ interface nota {
     siteId:number;
   }
 export async function getUsuario(token:string) {
+    console.log('pq')
     return await prisma.usuario.findMany({ where:{
         token:token
     }});
@@ -23,9 +24,10 @@ export async function insert(res:nota) {
     
     await prisma.notaNome.create({ data: res });
 }
-export async function getnota(id:number) {
+export async function getnota(id:number,cd:string) {
     return await prisma.notaNome.findMany({ where:{
-        usuarioId:id
+        usuarioId:id,
+        titulo:cd
     }});
 }
 export async function insertCd(usuario: nota1) {
@@ -42,4 +44,23 @@ export async function getNotas(id:number,idUsuario:number) {
      }
 });
    
+}
+export async function getId(id: number) {
+    return await prisma.notas.findMany({ where:{
+        id:id,
+    }});
+}
+export async function deletar(id:number,idUsuario:number) {
+    
+    await prisma.notas.delete({
+        where: {
+        id: idUsuario,
+        },
+      })
+     await prisma.notaNome.delete({
+        where: {
+          id: id,
+        },
+      })
+    
 }

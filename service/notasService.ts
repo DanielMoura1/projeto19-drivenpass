@@ -32,12 +32,13 @@ export async function criarnotaNome(nota: nota,id: number) {
     return await userRepository.insert(sites)
 
   }  
-  export async function pegarnota(id:number) {
+  export async function pegarnota(id:number,cd:string) {
     console.log('site')
-    const site =await userRepository.getnota(id)
+    const site =await userRepository.getnota(id,cd)
     console.log(site)
     console.log('teste')
-     return site[0]
+    const n =site.length-1
+     return site[n]
    
     }  
     export async function criarNota(credenciais: nota,id: number) {
@@ -58,5 +59,17 @@ export async function criarnotaNome(nota: nota,id: number) {
           throw { code: 'NotFound', message: 'id invalido' }
       }
          return usuario
-        }
+}
+export async function varificarID(id: number,titul:string) {
+
+  const titulo= await userRepository.getId(id)
+  console.log(titulo)
+  if(titulo.length===0){
+      throw { code: 'NotFound', message: 'id invalido' }
+  }
+ 
+}
+export async function Delete(idsite:number,idcd:number) {
+  return await userRepository.deletar(idsite,idcd)
+  }
     

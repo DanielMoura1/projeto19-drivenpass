@@ -8,12 +8,14 @@ datasource db {
 }
 
 model usuario {
-  id       Int        @id @default(autoincrement())
-  email    String     @unique
-  senha    String
-  token    String?
-  notaNome notaNome[]
-  sites    sites[]
+  id         Int          @id @default(autoincrement())
+  email      String       @unique
+  senha      String
+  token      String?
+  nomeCartao nomeCartao[]
+  nomeWifi   nomeWifi[]
+  notaNome   notaNome[]
+  sites      sites[]
 }
 
 model credenciais {
@@ -46,4 +48,41 @@ model notas {
   anotacao String
   siteId   Int
   notaNome notaNome @relation(fields: [siteId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model cartao {
+  id                            Int        @id @default(autoincrement())
+  numeroCartao                  String
+  nomeCartao                    String
+  codigoSeg                     String
+  dataValidade                  String
+  senha                         String
+  virtual                       Boolean    @default(false)
+  tipo                          String
+  nomeCartaoId                  Int
+  nomeCartao_cartaoTonomeCartao nomeCartao @relation(fields: [nomeCartaoId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model nomeCartao {
+  id        Int      @id @default(autoincrement())
+  titulo    String
+  usuarioId Int
+  usuario   usuario  @relation(fields: [usuarioId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  cartao    cartao[]
+}
+
+model nomeWifi {
+  id        Int     @id @default(autoincrement())
+  titulo    String
+  usuarioId Int
+  usuario   usuario @relation(fields: [usuarioId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  wifi      wifi[]
+}
+
+model wifi {
+  id         Int      @id @default(autoincrement())
+  nomeRede   String
+  senha      String
+  nomeWifiId Int
+  nomeWifi   nomeWifi @relation(fields: [nomeWifiId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
