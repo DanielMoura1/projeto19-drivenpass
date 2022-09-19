@@ -5,9 +5,9 @@ import jwt  from 'jsonwebtoken';
 import Cryptr from 'cryptr';
 
 export async function criarUsuario(usuario: usuarioData) {
-  //const cryptr = new Cryptr('myTotallySecretKey');
-  //const encryptedString = cryptr.encrypt('bacon');
-  //const decryptedString = cryptr.decrypt(encryptedString);
+  const cryptr = new Cryptr('myTotallySecretKey');
+  const encryptedString = cryptr.encrypt('bacon');
+  const decryptedString = cryptr.decrypt(encryptedString);
     usuario.senha= bcrypt.hashSync(usuario.senha, 10);
    return await userRepository.insert(usuario);
   }

@@ -22,3 +22,4 @@ ALTER TABLE "nomeWifi" ADD CONSTRAINT "nomeWifi_usuarioId_fkey" FOREIGN KEY ("us
 
 -- AddForeignKey
 ALTER TABLE "wifi" ADD CONSTRAINT "wifi_nomeWifiId_fkey" FOREIGN KEY ("nomeWifiId") REFERENCES "nomeWifi"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
